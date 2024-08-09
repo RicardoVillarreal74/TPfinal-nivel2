@@ -47,5 +47,11 @@ namespace Presentation
                 picBoxArticulo.Load("https://uning.es/wp-content/uploads/2016/08/ef3-placeholder-image.jpg");
             }
         }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            frmAdd add = new frmAdd();
+            add.ShowDialog();
+        }
     }
 }

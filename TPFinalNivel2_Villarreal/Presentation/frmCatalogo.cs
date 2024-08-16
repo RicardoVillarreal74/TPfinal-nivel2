@@ -27,8 +27,12 @@ namespace Presentation
 
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
         {
-            Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-            cargarImagen(seleccionado.ImagenUrl); 
+            if (dgvArticulos.CurrentRow != null)
+            {
+                Articulo seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                cargarImagen(seleccionado.ImagenUrl); 
+            }
+              
         }
 
         private void cargar()
@@ -38,8 +42,7 @@ namespace Presentation
             {
                 listaArticulos = negocio.listar();
                 dgvArticulos.DataSource = listaArticulos;
-                dgvArticulos.Columns["ImagenUrl"].Visible = false;
-                dgvArticulos.Columns["Id"].Visible = false;
+                hideColumns();
 
                 cargarImagen(listaArticulos[0].ImagenUrl);
             }
@@ -48,6 +51,12 @@ namespace Presentation
 
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void hideColumns()
+        {
+            dgvArticulos.Columns["ImagenUrl"].Visible = false;
+            dgvArticulos.Columns["Id"].Visible = false;
         }
 
         private void cargarImagen(string imagen)
@@ -100,6 +109,34 @@ namespace Presentation
 
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void btnFiltro_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void txtFiltro_KeyPress(object sender, KeyPressEventArgs e){}
+
+        private void txtFiltro_TextChanged(object sender, EventArgs e)
+        {
+            List<Articulo> lstFiltrada = new List<Articulo>();
+            string filtro = txtFiltro.Text;
+
+            if (filtro.Length >= 2)
+            {
+                lstFiltrada = listaArticulos.FindAll(x => x.Nombre.ToUpper().Contains(filtro.ToUpper()) || x.Marca.Descripcion.ToUpper().Contains(filtro.ToUpper()));
+            }
+            else
+            {
+                lstFiltrada = listaArticulos;
+            }
+
+
+
+            dgvArticulos.DataSource = null;
+            dgvArticulos.DataSource = lstFiltrada;
+            hideColumns();
         }
     }
 }

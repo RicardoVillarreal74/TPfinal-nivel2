@@ -23,6 +23,11 @@ namespace Presentation
         private void frmCatalogo_Load(object sender, EventArgs e)
         {
             cargar();
+            cboCampo.Items.Add("Nombre");
+            cboCampo.Items.Add("Categoria");
+            cboCampo.Items.Add("Precio");
+            cboCampo.Items.Add("Marca");
+
         }
 
         private void dgvArticulos_SelectionChanged(object sender, EventArgs e)
@@ -111,8 +116,68 @@ namespace Presentation
             }
         }
 
+        private bool validarFiltro()
+        {
+            if (cboCampo.SelectedIndex < 0)
+            {
+                MessageBox.Show("Por favor seleccione un campo");
+                return true;
+            }
+            if (cboCriterio.SelectedIndex < 0)
+            {
+                MessageBox.Show("Por favor seleccione un criterio");
+                return true;
+            }
+            if (cboCampo.SelectedItem.ToString() == "Precio")
+            {
+                if (string.IsNullOrEmpty(txtFiltroAvan.Text))
+                {
+                    MessageBox.Show("El filtro esta vacio");
+                    return true;
+                }
+                if (!(soloNumeros(txtFiltroAvan.Text)))
+                {
+                    MessageBox.Show("Solo numeros por favor");
+                    return true;
+                }
+            }
+
+                
+            return false;
+        }
+
+        private bool soloNumeros(string cadena)
+        {
+            foreach (char caracter in cadena)
+            {
+                if (!(char.IsNumber(caracter)))
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
+
         private void btnFiltro_Click(object sender, EventArgs e)
         {
+            CatalogoNegocio negocio = new CatalogoNegocio();
+            try
+            {
+                if (validarFiltro())
+                {
+                    return;
+                }
+                string campo = cboCampo.SelectedItem.ToString();
+                string criterio = cboCriterio.SelectedItem.ToString();
+                string filtro = txtFiltroAvan.Text;
+                dgvArticulos.DataSource = negocio.filtrar(campo, criterio, filtro);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+            }
             
         }
 
@@ -137,6 +202,27 @@ namespace Presentation
             dgvArticulos.DataSource = null;
             dgvArticulos.DataSource = lstFiltrada;
             hideColumns();
+        }
+
+        private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string option = cboCampo.SelectedItem.ToString();
+
+            if (option == "Precio")
+            {
+                cboCriterio.Items.Clear();
+                cboCriterio.Items.Add("Mayor a");
+                cboCriterio.Items.Add("Menor a");
+                cboCriterio.Items.Add("Igual a");
+
+            }
+            else
+            {
+                cboCriterio.Items.Clear();
+                cboCriterio.Items.Add("Comienza con");
+                cboCriterio.Items.Add("Termina con");
+                cboCriterio.Items.Add("Contiene");
+            }
         }
     }
 }

@@ -86,33 +86,46 @@ namespace Presentation
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            Articulo seleccionado;
-            seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-
-            frmAdd modify = new frmAdd(seleccionado);
-            modify.ShowDialog();
-            cargar();
+            if (lineaVacio(dgvArticulos))
+            {
+                Articulo seleccionado;
+                seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                frmAdd modify = new frmAdd(seleccionado);
+                modify.ShowDialog();
+                cargar();
+            }
+            else
+            {
+                MessageBox.Show("No hay elementos seleccionados para modificar");
+            }
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            CatalogoNegocio negocio = new CatalogoNegocio();
-            Articulo seleccionado;
-            try
+            if (lineaVacio(dgvArticulos))
             {
-                DialogResult answer = MessageBox.Show("Esta seguro de eliminar el articulo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (answer == DialogResult.Yes)
+                CatalogoNegocio negocio = new CatalogoNegocio();
+                Articulo seleccionado;
+                try
                 {
-                    seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
-                    negocio.eliminar(seleccionado.Id);
-                    cargar();
-                }
-                
-            }
-            catch (Exception ex)
-            {
+                    DialogResult answer = MessageBox.Show("Esta seguro de eliminar el articulo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (answer == DialogResult.Yes)
+                    {
+                        seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                        negocio.eliminar(seleccionado.Id);
+                        cargar();
+                    }
 
-                MessageBox.Show(ex.ToString());
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay elementos seleccionados para eliminar");
             }
         }
 
@@ -223,6 +236,15 @@ namespace Presentation
                 cboCriterio.Items.Add("Termina con");
                 cboCriterio.Items.Add("Contiene");
             }
+        }
+
+        private bool lineaVacio(DataGridView linea)
+        {
+            if (linea.CurrentRow != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

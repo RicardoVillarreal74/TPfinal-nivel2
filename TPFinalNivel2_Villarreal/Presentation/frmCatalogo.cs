@@ -246,5 +246,27 @@ namespace Presentation
             }
             return false;
         }
+
+        private void btnDetalles_Click(object sender, EventArgs e)
+        {
+            if (lineaVacio(dgvArticulos))
+            {
+                Articulo seleccionado;
+                seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
+                frmDetalles details = new frmDetalles(seleccionado);
+                details.ShowDialog();
+                cargar();
+            }
+            else
+            {
+                MessageBox.Show("No hay ningun elemento seleccionado");
+            }
+        }
+
+        
+
+        
+
+        
     }
 }

@@ -58,6 +58,8 @@ namespace Presentation
             }
         }
 
+
+        //Metodo para ocultar columnas
         private void hideColumns()
         {
             dgvArticulos.Columns["ImagenUrl"].Visible = false;
@@ -238,6 +240,7 @@ namespace Presentation
             }
         }
 
+        //Metodo para detectar si no hay nada seleccionado
         private bool lineaVacio(DataGridView linea)
         {
             if (linea.CurrentRow != null)
@@ -263,7 +266,7 @@ namespace Presentation
             }
         }
 
-        
+            
 
         
 

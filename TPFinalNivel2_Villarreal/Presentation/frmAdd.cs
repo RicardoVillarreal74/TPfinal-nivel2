@@ -37,7 +37,6 @@ namespace Presentation
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            //Articulo article = new Articulo();
             if (validarCampos())
             {
                 return;
@@ -149,6 +148,7 @@ namespace Presentation
         }
 
         //Metodo para validar campos obligatorios
+        //Descripcion e imagen son opcionales
         private bool validarCampos()
         {
             if (string.IsNullOrEmpty(txtCodigo.Text))

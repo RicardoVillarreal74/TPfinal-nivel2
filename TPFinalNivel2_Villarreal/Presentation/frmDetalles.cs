@@ -24,7 +24,7 @@ namespace Presentation
         private void frmDetalles_Load(object sender, EventArgs e)
         {
             txtDetNombre.Text = art.Nombre;
-            txtPrecio.Text = art.Precio.ToString();
+            txtPrecio.Text = art.Precio.ToString("#0.00");
             txtMarca.Text = art.Marca.Descripcion;
             txtCategoria.Text = art.Categoria.Descripcion;
             txtDescrip.Text = art.Descripcion;

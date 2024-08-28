@@ -110,7 +110,7 @@ namespace Presentation
                 Articulo seleccionado;
                 try
                 {
-                    DialogResult answer = MessageBox.Show("Esta seguro de eliminar el articulo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    DialogResult answer = MessageBox.Show("¿esta seguro de eliminar el articulo?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (answer == DialogResult.Yes)
                     {
                         seleccionado = (Articulo)dgvArticulos.CurrentRow.DataBoundItem;
